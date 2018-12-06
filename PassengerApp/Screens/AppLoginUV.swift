@@ -73,11 +73,11 @@ class AppLoginUV: UIViewController, MyBtnClickDelegate, MyTxtFieldClickDelegate 
 
     func setData(){
         if(UIColor.UCAColor.appLoginFieldBorderWidth > 0){
-            currencyTxtField.layer.borderColor = UIColor.UCAColor.appLoginFieldBorderColor.cgColor
-            currencyTxtField.layer.borderWidth = UIColor.UCAColor.appLoginFieldBorderWidth
-            
-            languageTxtField.layer.borderColor = UIColor.UCAColor.appLoginFieldBorderColor.cgColor
-            languageTxtField.layer.borderWidth = UIColor.UCAColor.appLoginFieldBorderWidth
+//            currencyTxtField.layer.borderColor = UIColor.UCAColor.appLoginFieldBorderColor.cgColor
+//            currencyTxtField.layer.borderWidth = UIColor.UCAColor.appLoginFieldBorderWidth
+//
+//            languageTxtField.layer.borderColor = UIColor.UCAColor.appLoginFieldBorderColor.cgColor
+//            languageTxtField.layer.borderWidth = UIColor.UCAColor.appLoginFieldBorderWidth
         }
         
         currencyTxtField.textPadding = UIEdgeInsets(top: 0, left: UIColor.UCAColor.appLoginFieldLeftPadding, bottom: 0, right: UIColor.UCAColor.appLoginFieldRightPadding)

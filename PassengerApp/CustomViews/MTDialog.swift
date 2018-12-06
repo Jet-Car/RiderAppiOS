@@ -165,6 +165,8 @@ class MTDialog: UIView {
         }
         if let color = preferedColor{
             label.textColor = color
+          
+          
         }
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

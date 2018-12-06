@@ -452,6 +452,7 @@
 		8402F17D20B2A78C00551F72 /* SecureCodeFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402F15B20B2A78B00551F72 /* SecureCodeFormCell.swift */; };
 		841BB2712046B8270002941E /* SMRippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BB2702046B8270002941E /* SMRippleView.swift */; };
 		84F5B6771FF3A3130022B09C /* EnableLocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F5B6761FF3A3130022B09C /* EnableLocationView.xib */; };
+		885C03CA21AE820000D79740 /* CustomAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C03C921AE820000D79740 /* CustomAlert.xib */; };
 		BD226FD81FDBC220004F1A31 /* KTCenterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = BD226FD71FDBC21F004F1A31 /* KTCenterFlowLayout.m */; };
 		BD22D579206CC4A100E027AC /* CountryListHeaderTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD22D578206CC4A100E027AC /* CountryListHeaderTVCell.swift */; };
 		BD22D57B206CC4BC00E027AC /* CountryListHeaderTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD22D57A206CC4BC00E027AC /* CountryListHeaderTVCell.xib */; };
@@ -1044,6 +1045,7 @@
 		841BB2702046B8270002941E /* SMRippleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMRippleView.swift; sourceTree = "<group>"; };
 		84F5B6761FF3A3130022B09C /* EnableLocationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnableLocationView.xib; sourceTree = "<group>"; };
 		85DFB3C39D703513AEA1910B /* Pods-PassengerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PassengerApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PassengerApp/Pods-PassengerApp.debug.xcconfig"; sourceTree = "<group>"; };
+		885C03C921AE820000D79740 /* CustomAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomAlert.xib; sourceTree = "<group>"; };
 		A672C8D13A87004C0A5B03C5 /* Pods-PassengerAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PassengerAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PassengerAppTests/Pods-PassengerAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ADD1C569906567524549E7FB /* Pods-PassengerAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PassengerAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PassengerAppUITests/Pods-PassengerAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B4759ABF77339E167F703E0E /* libPods-PassengerAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PassengerAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1433,6 +1435,7 @@
 				1E3E38DE1F7661EE00D61AD7 /* ListView.xib */,
 				BDA84142200DF6D6008E4ECC /* PickUpMarkerView.xib */,
 				BDD3F3062073925E00DEC355 /* OutStandingAmtView.xib */,
+				885C03C921AE820000D79740 /* CustomAlert.xib */,
 			);
 			path = CustomViewDesigns;
 			sourceTree = "<group>";
@@ -2251,6 +2254,7 @@
 				1E51065F1F31D0EB00C60FD5 /* ProviderDetailView.xib in Resources */,
 				BD6A28F2206A646000585DC8 /* HelpCategoryScreenDesign.xib in Resources */,
 				BDA84143200DF6D6008E4ECC /* PickUpMarkerView.xib in Resources */,
+				885C03CA21AE820000D79740 /* CustomAlert.xib in Resources */,
 				1EF6F4D71FC3202A0020CF0B /* AddAddressScreenDesign.xib in Resources */,
 				1E7E57C31ED3F8C900474723 /* AccountInfoScreenDesign.xib in Resources */,
 				1E24A3AD1F3C737800843608 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
@@ -3132,8 +3136,8 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = car.jet.riderapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "20e3a3c0-8a21-4622-94db-edf3dcd4b1aa";
-				PROVISIONING_PROFILE_SPECIFIER = 4octoberdistribution;
+				PROVISIONING_PROFILE = "796a72ee-0dac-4f25-9a0e-6c7e2c412192";
+				PROVISIONING_PROFILE_SPECIFIER = passengerdistribution_15october2018;
 				SWIFT_OBJC_BRIDGING_HEADER = "PassengerApp/PassengerApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -3170,8 +3174,8 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = car.jet.riderapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "20e3a3c0-8a21-4622-94db-edf3dcd4b1aa";
-				PROVISIONING_PROFILE_SPECIFIER = 4octoberdistribution;
+				PROVISIONING_PROFILE = "796a72ee-0dac-4f25-9a0e-6c7e2c412192";
+				PROVISIONING_PROFILE_SPECIFIER = passengerdistribution_15october2018;
 				SWIFT_OBJC_BRIDGING_HEADER = "PassengerApp/PassengerApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
