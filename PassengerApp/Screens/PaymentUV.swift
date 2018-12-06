@@ -233,7 +233,8 @@ class PaymentUV: UIViewController, MyBtnClickDelegate, CreditCardFormDelegate {
 //            addPaymentUv.paymentUv = self
 //            
 //            self.pushToNavController(uv: addPaymentUv)
-          
+            
+            
             
             if userProfileJson.get("APP_PAYMENT_METHOD") == "Stripe" ||  userProfileJson.get("APP_PAYMENT_METHOD") == "Paymaya" || userProfileJson.get("APP_PAYMENT_METHOD") == "Adyen"
             {

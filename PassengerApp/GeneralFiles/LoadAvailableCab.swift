@@ -142,6 +142,8 @@ class LoadAvailableCab: NSObject, OnTaskRunCalledDelegate {
     
       var parameters = ["type":"loadAvailableCab","PassengerLat": "\(self.pickUpLocation!.coordinate.latitude)", "PassengerLon": "\(self.pickUpLocation!.coordinate.longitude)","iUserId": GeneralFunctions.getMemberd(), "PickUpAddress": self.pickUpAddress, "eType": eType, "SelectedCabType": mainScreenUv != nil ? mainScreenUv.currentCabGeneralType : "" ,"isPool": is_Pool , "requiredSeats" : required_Seats]
       
+     
+      
 //        , "currentGeoCodeResult": currentGeoCodeResult.condenseWhitespace()
         if(mainScreenUv != nil && mainScreenUv.ufxSelectedVehicleTypeId != ""){
             parameters["iVehicleTypeId"] = mainScreenUv.ufxSelectedVehicleTypeId
@@ -168,12 +170,12 @@ class LoadAvailableCab: NSObject, OnTaskRunCalledDelegate {
             
             if(self.mainScreenUv.requestPickUpView != nil){
                 self.mainScreenUv.cabTypeCollectionView.isUserInteractionEnabled = true
+                
             }
-          
 //            Utils.printLog(msgData: "LoadAvailableCab:Result:response:got:\(response)")
             if(response != ""){
                 let dataDict = response.getJsonDataDict()
-                print(dataDict)
+                
                 let cabTypesArr = dataDict.getArrObj("VehicleTypes")
                 
                 if(self.mainScreenUv != nil){

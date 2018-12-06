@@ -194,13 +194,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>uber</string>
-  </array>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>lyft</string>
-  </array>
 </dict>
 </plist>

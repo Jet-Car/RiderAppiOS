@@ -11,11 +11,14 @@ import GoogleMaps
 
 class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelegate, AddressFoundDelegate, UICollectionViewDelegate, UICollectionViewDataSource , MyBtnClickDelegate, OnDirectionUpdateDelegate, OnTaskRunCalledDelegate, UICollectionViewDelegateFlowLayout{
   
+  
+  
+  
+  
   @IBOutlet var poolpaymentLabel: UILabel!
   @IBOutlet var plusBtn: UIButton!
   @IBOutlet var minusBtn: UIButton!
   @IBOutlet var poolingView: UIView!
-  @IBOutlet var seatsCountLabel: UILabel!
   
   @IBOutlet var heightforPoolView: NSLayoutConstraint!
   @IBOutlet var addSeatsViewTop: NSLayoutConstraint!
@@ -149,7 +152,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
     @IBOutlet weak var payNowImgView: UIImageView!
     @IBOutlet weak var adjustAmtImgView: UIImageView!
   
-  var alertView:UIView?
   
     var est_Fare_STR = String()
     var poolStatus = false
@@ -424,9 +426,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
     var selectedRentalPackageTypeId = ""
         
     var currentTotalViews = 0
-  
-    var additional_percentage = "0"
-  
+    
     override func viewWillAppear(_ animated: Bool) {
         
         self.configureRTLView()
@@ -609,7 +609,9 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             return
         }
         
+        
         self.snackbarController?.animate(snackbar: .hidden, delay: 0)
+        
         self.releaseAllTask()
         GeneralFunctions.postNotificationSignal(key: ConfigPubNub.resumeInst_key, obj: self)
         super.closeCurrentScreen()
@@ -626,8 +628,10 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 
                 if(currentTimeInmill > dataValue!){
                     GeneralFunctions.removeValue(key: key)
-               }
+                }
+                
             }
+            
         }
     }
     
@@ -805,92 +809,34 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
   @IBAction func plusBtn(_ sender: UIButton) {
     
     if self.loadAvailableCab != nil {
-      
-      if self.seatsCountLabel.text == "3" {
-        
-      }else if self.seatsCountLabel.text == "2"{
-        self.loadAvailableCab.required_Seats = self.seatsCountLabel.text!
-        self.seatsCountLabel.text = "\((Int(self.seatsCountLabel.text!)! + 1))"
+      self.loadAvailableCab.required_Seats = "2"
+      if self.poolpaymentLabel.text != "" && plusBtn.titleLabel?.text == "+" {
+        print(self.poolpaymentLabel.text!)
         let estPaymentStr = est_Fare_STR
         let estPayment = estPaymentStr.replacingOccurrences(of: "$ ", with: "")
         let estInteger = (Double(estPayment)!).roundTo(places: 2)
-        let tenPercentofEst = (estInteger  / 100) * Double(Int(additional_percentage)!)
-        let p = (tenPercentofEst.roundTo(places: 2))
-        self.poolpaymentLabel.text = "$ \(estInteger + (p * 2))"
-      }
-      else{
-        self.loadAvailableCab.required_Seats = self.seatsCountLabel.text!
-        self.seatsCountLabel.text = "\((Int(self.seatsCountLabel.text!)! + 1))"
-        let estPaymentStr = est_Fare_STR
-        let estPayment = estPaymentStr.replacingOccurrences(of: "$ ", with: "")
-        let estInteger = (Double(estPayment)!).roundTo(places: 2)
-        let tenPercentofEst = (estInteger / 100) * Double(Int(additional_percentage)!)
+        let tenPercentofEst = (estInteger / 100) * 20
         let p = (tenPercentofEst.roundTo(places: 2))
         self.poolpaymentLabel.text = "$ \(estInteger + p)"
+        
+        minusBtn.setTitle("-", for: .normal)
+        plusBtn.setTitle("2", for: .normal)
       }
-      
-
-//      self.seatsCountLabel.text = ""
-//      self.loadAvailableCab.required_Seats = "2"
-//      if self.poolpaymentLabel.text != "" && plusBtn.titleLabel?.text == "+" {
-//        print(self.poolpaymentLabel.text!)
-//        let estPaymentStr = est_Fare_STR
-//        let estPayment = estPaymentStr.replacingOccurrences(of: "$ ", with: "")
-//        let estInteger = (Double(estPayment)!).roundTo(places: 2)
-//        let tenPercentofEst = (estInteger / 100) * 20
-//        let p = (tenPercentofEst.roundTo(places: 2))
-//        self.poolpaymentLabel.text = "$ \(estInteger + p)"
-//
-//        minusBtn.setTitle("-", for: .normal)
-//        plusBtn.setTitle("2", for: .normal)
-//      }
     }
   }
   
   @IBAction func minusBtn(_ sender: UIButton) {
     
     if self.loadAvailableCab != nil {
+      if self.poolpaymentLabel.text != "" && minusBtn.titleLabel?.text == "-" {
       
-      
-      if self.seatsCountLabel.text == "1" {
-        
-      }else if self.seatsCountLabel.text == "2"{
-        self.loadAvailableCab.required_Seats = self.seatsCountLabel.text!
-        self.seatsCountLabel.text = "\((Int(self.seatsCountLabel.text!)! - 1))"
-        let estPaymentStr = est_Fare_STR
-        let estPayment = estPaymentStr.replacingOccurrences(of: "$ ", with: "")
-        let estInteger = (Double(estPayment)!).roundTo(places: 2)
-        let tenPercentofEst = (estInteger  / 100) * Double(Int(additional_percentage)!)
-        let p = (tenPercentofEst.roundTo(places: 2))
-        self.poolpaymentLabel.text = "$ \(estInteger)"
-      }
-      else{
-        self.loadAvailableCab.required_Seats = self.seatsCountLabel.text!
-        self.seatsCountLabel.text = "\((Int(self.seatsCountLabel.text!)! - 1))"
-        let estPaymentStr = est_Fare_STR
-        let estPayment = estPaymentStr.replacingOccurrences(of: "$ ", with: "")
-        let estInteger = (Double(estPayment)!).roundTo(places: 2)
-        let tenPercentofEst = (estInteger / 100) * Double(Int(additional_percentage)!)
-        let p = (tenPercentofEst.roundTo(places: 2))
-        self.poolpaymentLabel.text = "$ \(estInteger + p)"
+        self.poolpaymentLabel.text = est_Fare_STR
+     
+        minusBtn.setTitle("1", for: .normal)
+        plusBtn.setTitle("+", for: .normal)
       }
       
-//      else{
-//        self.loadAvailableCab.required_Seats = self.seatsCountLabel.text!
-//        self.seatsCountLabel.text = "\((Int(self.seatsCountLabel.text!)! - 1))"
-//        self.poolpaymentLabel.text = est_Fare_STR
-//      }
-      
-      
-//      if self.poolpaymentLabel.text != "" && minusBtn.titleLabel?.text == "-" {
-//
-//        self.poolpaymentLabel.text = est_Fare_STR
-//
-//        minusBtn.setTitle("1", for: .normal)
-//        plusBtn.setTitle("+", for: .normal)
-//      }
-//
-//      self.loadAvailableCab.required_Seats = "1"
+      self.loadAvailableCab.required_Seats = "1"
     }
   }
     
@@ -2560,9 +2506,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         //        sourcePinImgView.isHidden = false
         sourcePinImgView.isHidden = true
         requestPickUpView = self.generalFunc.loadView(nibName: "RequestPickUpBottomView", uv: self, isWithOutSize: true)
-//            minusBtn.setTitle("1", for: .normal)
-//            plusBtn.setTitle("+", for: .normal)
-      
+            minusBtn.setTitle("1", for: .normal)
+            plusBtn.setTitle("+", for: .normal)
       
        var height:CGFloat = 291 + 130 + (GeneralFunctions.getSafeAreaInsets().bottom / 2)
       //  self.addSeatsViewTop.constant = 48
@@ -3252,7 +3197,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                     let arrayForCar = (dataDict["message"] as! NSArray)
                   
                   let poolStatusForSelectedCar = (arrayForCar[0] as! NSDictionary).value(forKey: "isPool") as? String
-                  self.additional_percentage = (arrayForCar[0] as! NSDictionary).value(forKey: "additional_percentage") as! String
                   self.est_Fare_STR = (arrayForCar[0] as! NSDictionary).value(forKey: "total_fare") as! String
                   if poolStatusForSelectedCar == "1" {
                      self.poolStatus = true
@@ -3264,8 +3208,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                         }
                         
                         self.poolingView.isHidden = false
-                        self.requestPickUpView.frame.size.height = 390
                         self.paymentOptionContainerViewHeight.constant = 170
+                        self.requestPickUpView.frame.size.height = 390
                         self.requestPickUpView.frame.origin.y = self.cntView.frame.height - self.requestPickUpView.frame.height
                         self.gMapView.frame.size.height =  UIScreen.main.bounds.size.height - 390
                         self.poolpaymentLabel.text = (arrayForCar[0] as! NSDictionary).value(forKey: "total_fare") as? String
@@ -3321,7 +3265,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             }
         })
     }
-  
+    
+    
     func getCabTypeFare(currentVehicleTypeId:String) -> String{
         
         for i in 0..<cabTypesFareArr.count {
@@ -4110,16 +4055,14 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
       let cabTypeItem = self.cabTypesArr[indexPath.item]
       print(cabTypeItem)
       let poolStatusForSelectedCar = cabTypeItem.get("isPool")
-       self.additional_percentage = cabTypeItem.get("additional_percentage")
       if poolStatusForSelectedCar == "1" {
         poolStatus = true
         DispatchQueue.main.async{
           if(self.loadAvailableCab != nil){
-//            self.minusBtn.setTitle("1", for: .normal)
-//            self.plusBtn.setTitle("+", for: .normal)
+            self.minusBtn.setTitle("1", for: .normal)
+            self.plusBtn.setTitle("+", for: .normal)
             self.loadAvailableCab.is_Pool = "1"
             self.loadAvailableCab.required_Seats = "1"
-            self.seatsCountLabel.text = "1"
             print(cabTypeItem.get("total_fare"))
             self.est_Fare_STR = fareOfVehicleType
             self.poolpaymentLabel.text = fareOfVehicleType
@@ -4136,8 +4079,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         poolStatus = false
         DispatchQueue.main.async{
           if(self.loadAvailableCab != nil){
-//            self.minusBtn.setTitle("1", for: .normal)
-//            self.plusBtn.setTitle("+", for: .normal)
+            self.minusBtn.setTitle("1", for: .normal)
+            self.plusBtn.setTitle("+", for: .normal)
             self.loadAvailableCab.is_Pool = "0"
             self.loadAvailableCab.required_Seats = ""
             self.poolpaymentLabel.text = fareOfVehicleType
@@ -4342,22 +4285,20 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         
     }
     
-   // func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-//        let screenWidth = Application.screenSize.width
-//        let totalCellWidth = (120 * cabTypesArr.count)
-//
-//        let leftInset = (collectionView.frame.width - CGFloat(totalCellWidth + 0)) / 2;
-//        let rightInset = leftInset
-//
-//        if(screenWidth < CGFloat(totalCellWidth)){
-//            return UIEdgeInsetsMake(0, 0, 0, 0)
-//        }else{
-//            return UIEdgeInsetsMake(0, leftInset, 0, rightInset)
-//        }
-      
-      
- //   }
+        let screenWidth = Application.screenSize.width
+        let totalCellWidth = (120 * cabTypesArr.count)
+        
+        let leftInset = (collectionView.frame.width - CGFloat(totalCellWidth + 0)) / 2;
+        let rightInset = leftInset
+        
+        if(screenWidth < CGFloat(totalCellWidth)){
+            return UIEdgeInsetsMake(0, 0, 0, 0)
+        }else{
+            return UIEdgeInsetsMake(0, leftInset, 0, rightInset)
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cabTypesArr.count
@@ -4371,48 +4312,31 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         let iVehicleTypeId = tempDict.get("iVehicleTypeId")
         
         let fareOfVehicleType = Configurations.convertNumToAppLocal(numStr: getCabTypeFare(currentVehicleTypeId: iVehicleTypeId))
-      
-        print(cabTypesArr[indexPath.item])
-    
         cell.fareEstLbl.text = fareOfVehicleType
         cell.fareEstLbl.baselineAdjustment = .alignCenters
-      
-      if (cabTypesArr[indexPath.item] ).get("isPool") == "1"{
-      
-        cell.seatsCapacityLbl.text = Configurations.convertNumToAppLocal(numStr: "1-\((cabTypesArr[indexPath.item] ).get("iPersonSize"))")
-      }
-      else{
-        cell.seatsCapacityLbl.text = Configurations.convertNumToAppLocal(numStr: (cabTypesArr[indexPath.item] ).get("iPersonSize"))
-      }
-        cell.capacityImgView.image = #imageLiteral(resourceName: "capacityGray")
+        
         if(self.selectedCabTypeId == iVehicleTypeId){
-            cell.alpha = 1.0
+            
             UIView.transition(with: self.view, duration: 0.25, options: .transitionCrossDissolve, animations: {
                 cell.cabTypeHoverImgView.isHidden = false
                 cell.cabTypeImgView.isHidden = true
             })
-            cell.baseView.layer.borderWidth = 1.8
-            cell.baseView.layer.cornerRadius = 6
-            cell.baseView.layer.borderColor = UIColor.UCAColor.AppThemeColor.cgColor
+            
             cell.cabTypeNameLbl.textColor = UIColor.UCAColor.AppThemeColor_1
-          
+            
             //For rental we will display fares if no destination is selected
             if (self.destAddress == "DEST_SKIPPED" && self.cabTypesFareArr.count == 0 && self.selectedCabCategoryType != Utils.rentalCategoryType){
                 cell.fareEstLbl.text = fareOfVehicleType
-          
-              
             }else{
                 if(fareOfVehicleType == ""){
                     cell.fareEstLbl.text = fareOfVehicleType
                 }else{
-                cell.fareEstLbl.addImage(originalText: Configurations.isRTLMode() ? " \(fareOfVehicleType)" : "\(fareOfVehicleType) ", image: UIImage(named: "ic_fare_detail")!.resize(toWidth: 15)!.resize(toHeight: 15)!, color: UIColor.UCAColor.AppThemeColor, position:  Configurations.isRTLMode() ? .left : .right)
+                    cell.fareEstLbl.addImage(originalText: Configurations.isRTLMode() ? " \(fareOfVehicleType)" : "\(fareOfVehicleType) ", image: UIImage(named: "ic_fare_detail")!.resize(toWidth: 15)!.resize(toHeight: 15)!, color: UIColor.UCAColor.AppThemeColor, position:  Configurations.isRTLMode() ? .left : .right)
                 }
             }
             
         }else{
-          
-            cell.baseView.layer.borderWidth = 0
-            cell.alpha = 0.65
+            
             UIView.transition(with: self.view, duration: 0.25, options: .transitionCrossDissolve, animations: {
                 cell.cabTypeImgView.isHidden = false
                 cell.cabTypeHoverImgView.isHidden = true
@@ -4423,15 +4347,15 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             cell.fareEstLbl.text = fareOfVehicleType
         }
         
-        cell.fareEstLbl.font = UIFont.systemFont(ofSize: 14.0)
+        
         if self.selectedCabCategoryType == Utils.rentalCategoryType{
              cell.cabTypeNameLbl.text = tempDict.get("vRentalVehicleTypeName")
         }else{
              cell.cabTypeNameLbl.text = tempDict.get("vVehicleType")
         }
     
-       // Utils.createRoundedView(view: cell.cabTypeImgView, borderColor: UIColor(hex: 0xcbcbcb), borderWidth: 1)
-    //    Utils.createRoundedView(view: cell.cabTypeHoverImgView, borderColor: UIColor.UCAColor.AppThemeColor_1, borderWidth: 1)
+        Utils.createRoundedView(view: cell.cabTypeImgView, borderColor: UIColor(hex: 0xcbcbcb), borderWidth: 1)
+        Utils.createRoundedView(view: cell.cabTypeHoverImgView, borderColor: UIColor.UCAColor.AppThemeColor_1, borderWidth: 1)
         
         var vCarLogoImg = ""
         var vCarLogoHoverImg = ""
@@ -4451,11 +4375,9 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         
         if(tempDict.get("vLogo") == ""){
             imgUrl = "\(vVehicleDefaultImgPath)ic_car.png"
-       
         }
         if(tempDict.get("vLogo1") == ""){
             hoverImgUrl = "\(vVehicleDefaultImgPath)hover_ic_car.png"
-         
         }
         
         self.setCabTypeImage(imgView: cell.cabTypeHoverImgView, tintImgColor: UIColor.UCAColor.AppThemeTxtColor, imgUrl: hoverImgUrl, defaultImgUrl: "\(self.vVehicleDefaultImgPath)hover_ic_car.png", isCheckAgain: true)
@@ -4471,29 +4393,26 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         //        GeneralFunctions.setImgTintColor(imgView: cell.cabTypeHoverImgView, color: UIColor.UCAColor.AppThemeTxtColor)
         //        GeneralFunctions.setImgTintColor(imgView: cell.cabTypeImgView, color: UIColor(hex: 0x999fa2))
         
-//        if(indexPath.item == 0){
-//            cell.leftSeperationTopView.isHidden = true
-//            cell.leftSeperationBottomView.isHidden = true
-//        }else{
-//            cell.leftSeperationTopView.isHidden = false
-//            cell.leftSeperationBottomView.isHidden = false
-//        }
-//
-//        if(indexPath.item == (self.cabTypesArr.count - 1)){
-//            cell.rightSeperationTopView.isHidden = true
-//            cell.rightSeperationBottomView.isHidden = true
-//        }else{
-//            cell.rightSeperationTopView.isHidden = false
-//            cell.rightSeperationBottomView.isHidden = false
-//        }
-      
+        if(indexPath.item == 0){
+            cell.leftSeperationTopView.isHidden = true
+            cell.leftSeperationBottomView.isHidden = true
+            
+        }else{
+            cell.leftSeperationTopView.isHidden = false
+            cell.leftSeperationBottomView.isHidden = false
+        }
+        
+        if(indexPath.item == (self.cabTypesArr.count - 1)){
+            cell.rightSeperationTopView.isHidden = true
+            cell.rightSeperationBottomView.isHidden = true
+        }else{
+            cell.rightSeperationTopView.isHidden = false
+            cell.rightSeperationBottomView.isHidden = false
+        }
+        
         return cell
     }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return  CGSize(width: collectionView.frame.size.width, height: 80)
-  }
-  
+    
     func setCabTypeImage(imgView:UIImageView, tintImgColor:UIColor, imgUrl:String, defaultImgUrl:String, isCheckAgain:Bool){
         imgView.sd_setImage(with: URL(string: imgUrl), placeholderImage: UIImage(named: "placeHolder.png"),options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
             if(error != nil && isCheckAgain == true){
@@ -4582,9 +4501,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         var driverIds = ""
         
         var finalLoadedDriverList = [NSDictionary]()
-      
-        print(self.currentLoadedDriverList)
-      
         finalLoadedDriverList.append(contentsOf: self.currentLoadedDriverList)
         
         if(userProfileJson.get("DRIVER_REQUEST_METHOD") == "Distance"){
@@ -4595,7 +4511,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             let iDriverId = finalLoadedDriverList[i].get("driver_id")
             driverIds = driverIds == "" ? iDriverId : (driverIds + "," + iDriverId)
         }
-      print(driverIds)
         return driverIds
     }
     
@@ -4915,7 +4830,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             
             setTripStartData(deliveryConfirmCode: msgData.get("VerificationCode"))
         }else if(msgStr == "DestinationAdded"){
-          
+            
+            
             var contentMsg = ""
             if(msgData.get("vTitle") == ""){
                 contentMsg = self.generalFunc.getLanguageLabel(origValue: "", key: "LBL_DEST_ADD_BY_DRIVER")
@@ -4964,7 +4880,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 
                 let getUserData = GetUserData(uv: self, window: window!)
                 getUserData.getdata()
-                            })
+                
+            })
         }
     }
     
@@ -5240,7 +5157,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 self.gMapView.frame.size.height = self.cntView.frame.size.height - self.drvierDetailViewHeight
                 self.view.layoutIfNeeded()
                 
-            if(GeneralFunctions.getValue(key: "IS_AUTO_FOCUS_TO_DEST") != nil && (GeneralFunctions.getValue(key: "IS_AUTO_FOCUS_TO_DEST") as! String) == "Yes"){
+                
+                if(GeneralFunctions.getValue(key: "IS_AUTO_FOCUS_TO_DEST") != nil && (GeneralFunctions.getValue(key: "IS_AUTO_FOCUS_TO_DEST") as! String) == "Yes"){
                     GeneralFunctions.saveValue(key: "IS_AUTO_FOCUS_TO_DEST", value: "No" as AnyObject)
                     self.addressContainerView.destViewTapped(isAutoOpenSelection: false)
                 }else{
@@ -5249,7 +5167,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 }
 
             }
-          
+            
+            
         })
     }
     
@@ -5505,6 +5424,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 self.generalFunc.setError(uv: self)
             }
         })
+        
     }
     
     func shareTripTapped(){
@@ -5527,6 +5447,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             self.present(activityVC, animated: true, completion: nil)
         }
         getAddrFrmLocation.executeProcess(isOpenLoader: true, isAlertShow: true)
+
     }
     
     func onTaskRun(currInst: UpdateFreqTask) {
@@ -6027,8 +5948,10 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                     }
                 }
                 
+                
             }else{
-              self.generalFunc.setError(uv: self)
+                
+                self.generalFunc.setError(uv: self)
             }
         }, url: tollURL)
         
@@ -6069,7 +5992,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         
         
 //        if(userProfileJson.get("eEmailVerified").uppercased() != "YES" || userProfileJson.get("ePhoneVerified").uppercased() != "YES" ){
-        if((userProfileJson.get("eEmailVerified").uppercased() != "YES" && userProfileJson.get("RIDER_EMAIL_VERIFICATION").uppercased() == "YES") || (userProfileJson.get("ePhoneVerified").uppercased() != "YES" && userProfileJson.get("RIDER_PHONE_VERIFICATION").uppercased() == "YES")){
+        if((userProfileJson.get("eEmailVerified").uppercased() != "YES" && userProfileJson.get("RIDER_EMAIL_VERIFICATION").uppercased() == "YES") || (userProfileJson.get("ePhoneVerified").uppercased() != "YES" && userProfileJson.get("RIDER_PHONE_VERIFICATION").uppercased() == "YES") ){
         
             self.generalFunc.setAlertMessage(uv: self, title: "", content: self.generalFunc.getLanguageLabel(origValue: "", key: "LBL_ACCOUNT_VERIFY_ALERT_RIDER_TXT"), positiveBtn: self.generalFunc.getLanguageLabel(origValue: "Ok", key: "LBL_BTN_OK_TXT"), nagativeBtn: "", completionHandler: { (btnClickedIndex) in
                 
@@ -6086,7 +6009,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         
         requestCabView = self.generalFunc.loadView(nibName: "RequestCabView", uv: self, contentView: contentView)
         
-        //        requestCabView.frame = CGRect(x: 0, y: 0, width: Application.screenSize.width, height: self.view.frame.height)++
+        //        requestCabView.frame = CGRect(x: 0, y: 0, width: Application.screenSize.width, height: self.view.frame.height)
         //        requestCabView.frame = CGRect(x: 0, y: 0, width: Application.screenSize.width, height: Application.screenSize.height)
         requestCabView.frame = self.view.frame
         
@@ -6177,6 +6100,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             self.loadAvailableCab.onPauseCalled()
         }
         
+        
     }
     
     func getNavBarHeight() -> CGFloat{
@@ -6200,7 +6124,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         //        Utils.printLog(msgData: "retryTxtHeight::\(retryTxtHeight)")
         return retryTxtHeight
     }
-  
     func incCountOfRequestToDriver(){
         if(userProfileJson.get("DRIVER_REQUEST_METHOD").uppercased() != "ALL"){
             continueDriverRequestQueue()
@@ -6263,10 +6186,11 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             retryReqBtn.isHidden = isHidden
             
             if(isHidden == false){
-            self.requestCabHeaderBarHeight.constant = getNavBarHeight() + getRetryTextHeight()
-              
+                
+                self.requestCabHeaderBarHeight.constant = getNavBarHeight() + getRetryTextHeight()
+                
             }else{
-              self.requestCabHeaderBarHeight.constant =  getNavBarHeight()
+                self.requestCabHeaderBarHeight.constant =  getNavBarHeight()
             }
         }
     }
@@ -6309,11 +6233,13 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 self.continueCancelCabReq()
             }
         })
+        
     }
     
     func continueCancelCabReq(){
         let parameters = ["type":"cancelCabRequest", "iUserId": GeneralFunctions.getMemberd()]
-      
+        
+        
         let exeWebServerUrl = ExeServerUrl(dict_data: parameters, currentView: self.view, isOpenLoader: true)
         exeWebServerUrl.executePostProcess(completionHandler: { (response) -> Void in
             if(response != ""){
@@ -6492,8 +6418,11 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         if(self.requestPickUpView != nil){
             removeAddReqPickUpView()
         }
-    }
         
+    }
+    
+    
+    
     func sendRequestToDrivers(driverIds:String, tollPrice: String, tollPriceCurrencyCode: String, isTollSkipped: String){
         isRequestExecuting = true
         var driverIds = driverIds
@@ -6511,8 +6440,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
       
       let parameters = ["type":"sendRequestToDrivers", "driverIds": driverIds, "userId": GeneralFunctions.getMemberd(), "CashPayment": "\(isCashPayment)", "SelectedCarTypeID": selectedCabTypeId, "DestLatitude": "\(self.destLocation != nil && self.destAddress != "DEST_SKIPPED" ? "\(self.destLocation!.coordinate.latitude)" : "")", "DestLongitude": "\(self.destLocation != nil && self.destAddress != "DEST_SKIPPED" ? "\(self.destLocation!.coordinate.longitude)" : "")", "DestAddress": "\(self.destAddress == "DEST_SKIPPED" ? "" : self.destAddress)", "PickUpLatitude": "\(self.pickUpLocation!.coordinate.latitude)", "PickUpLongitude": "\(self.pickUpLocation!.coordinate.longitude)", "eType": self.currentCabGeneralType, "PromoCode": self.appliedPromoCode,"PickUpAddress": self.pickUpAddress, "iPackageTypeId": self.packageTypeId, "vReceiverName": self.receiverName, "vReceiverMobile": self.receiverMobile, "tPickUpIns": self.pickUpIns, "tDeliveryIns": self.deliveryIns, "tPackageDetails": self.packageDetails, "fTollPrice": tollPrice, "vTollPriceCurrencyCode": tollPriceCurrencyCode, "eTollSkipped": isTollSkipped, "Quantity": self.ufxSelectedQty, "iUserAddressId": self.ufxAddressId, "tUserComment":self.specialInstruction , "iRentalPackageId" : self.selectedRentalPackageTypeId , "isPool" :isPoolStatus ,"requiredSeats":requiredSeats]
       
-      print(parameters)
-      
         //
         //        "PickUpAddGeoCodeResult": self.pickUpAddGeoCodeResult.condenseWhitespace(), "DestAddGeoCodeResult": self.destAddGeoCodeResult.condenseWhitespace()
         //        , "TimeZone": "\(DateFormatter().timeZone.identifier)"
@@ -6527,26 +6454,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 self.isRequestExecuting = false
                 
                 let dataDict = response.getJsonDataDict()
-                print(dataDict)
-              
-              if(dataDict.get("Action") == "999"){
-                self.alertView = Bundle.main.loadNibNamed("CustomAlert", owner: self, options: nil)![0] as? UIView
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-                let alert = self.alertView?.viewWithTag(10)
-                alert?.layer.cornerRadius = 12
-                let contentLbl = alert?.viewWithTag(20) as! UILabel
-                let uberBtn = alert?.viewWithTag(30) as! UIButton
-                let lyftBtn = alert?.viewWithTag(40) as! UIButton
-                let okBtn = alert?.viewWithTag(50) as! UIButton
-                contentLbl.text =  self.generalFunc.getLanguageLabel(origValue: dataDict["MESSAGE"] as! String, key: "LBL_FOR_MINIMUM_DISTANCE")
-                okBtn.addTarget(self, action: #selector(self.alertokBtn(_:)), for: .touchUpInside)
-                uberBtn.addTarget(self, action: #selector(self.openUberApp(_:)), for: .touchUpInside)
-                self.view.addSubview(self.alertView!)
-                lyftBtn.addTarget(self, action: #selector(self.openLyftApp(_:)), for: .touchUpInside)
-                return
-              }
-              
-              
+               print(dataDict)
+                
                 if(dataDict.get("Action") != "1"){
                     if(dataDict.get(Utils.message_str) == "SESSION_OUT"){
                         self.closeCabReqView()
@@ -6596,6 +6505,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                         self.closeCabReqView()
                         
                         self.generalFunc.setAlertMessage(uv: self, title: "", content: self.generalFunc.getLanguageLabel(origValue: "", key: "LBL_ACCOUNT_VERIFY_ALERT_RIDER_TXT"), positiveBtn: self.generalFunc.getLanguageLabel(origValue: "Ok", key: "LBL_BTN_OK_TXT"), nagativeBtn: "", completionHandler: { (btnClickedIndex) in
+                            
                             //                            self.removeAddReqPickUpView()
                             
                             let accountVerificationUv = GeneralFunctions.instantiateViewController(pageName: "AccountVerificationUV") as! AccountVerificationUV
@@ -6603,6 +6513,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                             accountVerificationUv.mainScreenUv = self
                             accountVerificationUv.requestType = dataDict.get(Utils.message_str)
                             self.pushToNavController(uv: accountVerificationUv)
+                            
                         })
                     }
                 }
@@ -6630,6 +6541,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                         getUserData.getdata()
                     }
                 })
+
         
 //                if(self.userProfileJson.get("DRIVER_REQUEST_METHOD").uppercased() == "ALL"){
 //                    self.currDriverReqPosition = 0
@@ -6639,68 +6551,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             }
         })
     }
-  
-  @objc func alertokBtn(_ sender: UIButton){
-    for views in self.view.subviews{
-      
-      if views == alertView{
-        views.removeFromSuperview()
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2, execute: {
-          self.continueCancelCabReq()
-        })
-      }
-    }
-  }
-  
-  @objc func openUberApp(_ sender: UIButton){
-    for views in self.view.subviews{
-      
-      if views == alertView{
-        views.removeFromSuperview()
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2, execute: {
-          let uberURL = URL(string: "uber://")
-          let appStoreURL = URL(string: "itms-apps://itunes.apple.com/us/app/uber/id368677368?mt=8")
-          
-          if let anURL = uberURL {
-            if UIApplication.shared.canOpenURL(anURL) {
-              UIApplication.shared.openURL(anURL)
-            } else {
-              if let anURL = appStoreURL {
-                UIApplication.shared.openURL(anURL)
-              }
-            }
-          }
-        })
-      }
-  }
-  }
-  
-  @objc func openLyftApp(_ sender: UIButton){
-    for views in self.view.subviews{
-      
-      if views == alertView{
-        views.removeFromSuperview()
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2, execute: {
-          let uberURL = URL(string: "lyft://")
-          
-          let appStoreURL = URL(string: "itms-apps://itunes.apple.com/in/app/lyft/id529379082?mt=8")
-          
-          if let anURL = uberURL {
-            if UIApplication.shared.canOpenURL(anURL) {
-              UIApplication.shared.openURL(anURL)
-            } else {
-              if let anURL = appStoreURL {
-                UIApplication.shared.openURL(anURL)
-              }
-            }
-          }
-        })
-      }
-    }
-  }
-  
-  
-  
     
     func openManageProfile(isOpenEditProfile: Bool){
         let manageProfileUv = GeneralFunctions.instantiateViewController(pageName: "ManageProfileUV") as! ManageProfileUV
@@ -6745,7 +6595,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             if(self.loadAvailableCab != nil && requestCabView == nil){
                 self.loadAvailableCab.onResumeCalled()
             }
-          
         }else{
             
             if(self.isDriverAssigned == true){
@@ -6755,7 +6604,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             
             self.destLocation = selectedLocation
             self.destAddress = selectedAddress
-          
+            
+            
             addressContainerView.destAddressLbl.text = selectedAddress == "DEST_SKIPPED" ? "" : selectedAddress
             isSkipAddressFind = true
             //            addressContainerView.goToDestLoc()
@@ -6773,6 +6623,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                     self.continueEstimateFare(distance: "", time: "")
                 }
             }
+            
         }
         
         if(self.requestPickUpView != nil && self.pickUpLocation != nil && self.destLocation != nil){
@@ -6786,7 +6637,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         if(requestPickUpView == nil){
             self.boundMapFromSourceToDest()
         }
-      
+        
+        
         //        if(self.addressContainerView != nil){
         //            if(sourcePinImgView.isHidden == false){
         //                sourcePinImgView.image = UIImage(named: "ic_pin_dest_selection")
@@ -6807,6 +6659,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 self.eFlatTrip = false
             }
         }
+        
     }
     
     func continueLocationSelected(selectedLocation:CLLocation, selectedAddress:String, isFromAddDestination:Bool){
@@ -6831,6 +6684,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         }else if(isFromAddDestination == true  && requestPickUpView != nil){
             self.boundMapFromSourceToDest()
         }
+        
         
         if(self.destLocation != nil && requestPickUpView == nil){
             self.openRequestPickUpView(isFromRideLater: false)
@@ -6874,7 +6728,8 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
         self.destinationOnTripTollPrice = tollPrice
         self.destinationOnTripTollCurrencyCode = tollPriceCurrencyCode
         self.destinationOnTripTollSkipped = isTollSkipped
-      
+        
+        
         let parameters = ["type":"addDestination","iMemberId": GeneralFunctions.getMemberd(), "Latitude": latitude, "Longitude": longitude, "Address": address, "UserType": Utils.appUserType, "TripId": self.assignedTripId, "eConfirmByUser": eConfirmByUser, "fTollPrice": tollPrice, "vTollPriceCurrencyCode": tollPriceCurrencyCode, "eTollSkipped": isTollSkipped, "eTollConfirmByUser": eTollConfirmByUser == "" ? "No" : "\(eTollConfirmByUser)"]
         let exeWebServerUrl = ExeServerUrl(dict_data: parameters, currentView: self.view, isOpenLoader: true)
         exeWebServerUrl.setDeviceTokenGenerate(isDeviceTokenGenerate: false)
@@ -6961,6 +6816,7 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
                 continueLocationSelected(selectedLocation: selectedLocation!, selectedAddress: selectedAddress, isFromAddDestination: true)
             }
             
+            
         }else if(segue.source.isKind(of: AccountVerificationUV.self)){
             _ = segue.source as! AccountVerificationUV
             
@@ -6976,7 +6832,6 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             if(self.loadAvailableCab != nil){
                 self.loadAvailableCab.checkAvailableCabs()
             }
-
         }else if(segue.source.isKind(of: RentalPackageDetailsUV.self)){
             let rentalPackageDetailsUV = segue.source as! RentalPackageDetailsUV
             self.isRentalPackageSelected = true
@@ -6989,9 +6844,10 @@ class MainScreenUV: UIViewController, GMSMapViewDelegate, OnLocationUpdateDelega
             }else{
                 //                self.continueRideLaterSchedule(tollPrice: "", tollPriceCurrencyCode: "", isTollSkipped: "")
                 checkSurgePrice(selectedTime: self.selectedDate, isRideLater: true, ufxSelectedDriverIndex: -1)
+                
             }
+            
         }
+        
     }
 }
-
-
